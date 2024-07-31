@@ -1,5 +1,7 @@
 from tkinter import BOTH, Canvas, Tk
 
+from draw import Line, Point
+
 
 class Window:
     def __init__(self, width, height):
@@ -25,3 +27,49 @@ class Window:
 
     def close(self):
         self.__running = False
+
+
+class Cell:
+    def __init__(self, win):
+        self.has_left_wall = True
+        self.has_right_wall = True
+        self.has_top_wall = True
+        self.has_bottom_wall = True
+        self._x1 = None
+        self._x2 = None
+        self._y1 = None
+        self._y2 = None
+        self._win = win
+
+    def draw(self, x1, y1, x2, y2):
+
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
+
+        p1, p2, p3, p4 = Point(x1, y1), Point(x2, y2), Point(x1, y2), Point(x2, y1)
+
+        if self.has_left_wall:
+            self._win.draw_line(Line(p1, p3), "red")
+        if self.has_right_wall:
+            self._win.draw_line(Line(p2, p4), "red")
+        if self.has_bottom_wall:
+            self._win.draw_line(Line(p1, p4), "red")
+        if self.has_top_wall:
+            self._win.draw_line(Line(p3, p2), "red")
+
+    def get_centre(self):
+        if self._x1 is None or self._y1 is None or self._x2 is None or self._y2 is None:
+            return None
+        return ((self._x1 + self._x2) / 2, (self._y1 + self._y2) / 2)
+
+    def draw_move(self, to_cell, undo=False):
+        color = "blue" if not undo else "red"
+        centre_1, centre_2 = to_cell.get_centre(), self.get_centre()
+
+        if centre_1 and centre_2:
+            p1, p2 = Point(centre_1[0], centre_1[1]), Point(centre_2[0], centre_2[1])
+            self._win.draw_line(Line(p1, p2), color)
+        else:
+            print("could not draw move: invalid cell centers")
