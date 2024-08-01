@@ -42,12 +42,12 @@ class Cell:
         self._win = win
 
     def draw(self, x1, y1, x2, y2):
-        if self._win is None:
-            return
         self._x1 = x1
         self._y1 = y1
         self._x2 = x2
         self._y2 = y2
+        if self._win is None:
+            return
         p1, p2, p3, p4 = Point(x1, y1), Point(x2, y2), Point(x1, y2), Point(x2, y1)
         if self.has_left_wall:
             self._win.draw_line(Line(p1, p3), "red")
