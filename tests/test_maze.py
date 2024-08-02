@@ -12,11 +12,11 @@ class Tests(unittest.TestCase):
         m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
         self.assertEqual(
             len(m1._cell_list),
-            num_cols,
+            num_rows,
         )
         self.assertEqual(
             len(m1._cell_list[0]),
-            num_rows,
+            num_cols,
         )
 
     def test_draw_cell(self):
@@ -26,8 +26,8 @@ class Tests(unittest.TestCase):
         cell1 = m1._cell_list[0][0]
         cell2 = m1._cell_list[2][3]
 
-        self.assertEqual(cell2._x1, 20)
-        self.assertEqual(cell2._y1, 30)
+        self.assertEqual(cell2._x1, 30)
+        self.assertEqual(cell2._y1, 20)
 
     def test_maze_break_entrance_and_exit(self):
         num_cols = 12
